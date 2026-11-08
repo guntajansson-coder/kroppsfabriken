@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kroppsfabriken · Laboratorium 01</title>
+<style>
+:root{--ink:#e8f1f5;--muted:#a8bcc8;--line:#294453;--bg:#071923;--panel:#102a36;--aqua:#5ce1d1;--orange:#ffbb73;--red:#ff7984;--green:#91e0aa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.app{max-width:1250px;margin:auto;padding:20px 16px 42px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--aqua);font-weight:800}.top h1{margin:4px 0 0;font-size:clamp(26px,4vw,42px);letter-spacing:-.05em}.badge{border:1px solid #466371;border-radius:40px;padding:9px 13px;color:#d3e6ed;font-size:12px}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin:24px 0 17px}.intro h2{font-size:clamp(20px,3vw,28px);margin:0 0 6px;letter-spacing:-.03em}.intro p{margin:0;color:var(--muted);max-width:680px;line-height:1.5}.pill{border:1px solid #426171;padding:7px 12px;border-radius:40px;color:var(--aqua);font-size:12px}
+.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(290px,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.card-head{padding:16px 18px 0;display:flex;justify-content:space-between;gap:12px;align-items:center}.card-head h3{margin:0;font-size:14px;letter-spacing:.04em}.small{font-size:12px;color:var(--muted)}.scene{padding:5px 8px 0}
+svg{display:block;width:100%;height:auto}.cellShell{fill:#193a46;stroke:#7ccfcb;stroke-width:4}.mito{fill:#335564;stroke:#ffbe7b;stroke-width:3}.innerMito{fill:none;stroke:#ffc38d;stroke-width:3;stroke-linecap:round}.tube{fill:none;stroke:#395967;stroke-width:23;stroke-linecap:round}.tubeCore{fill:none;stroke:#102b39;stroke-width:15;stroke-linecap:round}
+.label{fill:#e3f3f5;font-weight:700;font-size:15px}.subLabel{fill:#a8c1cb;font-size:11px}.moltext{fill:#08212a;font-weight:900;font-size:10px;text-anchor:middle;dominant-baseline:middle}
+#lightHalo{opacity:.08;transition:opacity .4s}#lightBulb{fill:#576d70;transition:fill .4s}#muscle{transition:transform .5s;transform-origin:484px 330px}#arm{transition:transform .5s;transform-origin:470px 340px}
+#flowDots circle{opacity:.85}.legend{display:flex;flex-wrap:wrap;gap:12px;padding:0 17px 15px;color:var(--muted);font-size:12px}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.status{margin:0 16px 16px;padding:12px 14px;background:#0a202b;border:1px solid #2a4d5b;border-radius:12px;min-height:62px}.status strong{display:block;color:var(--aqua);margin-bottom:3px}.status span{font-size:13px;color:#c3d6df;line-height:1.4}
+.controls{padding:16px}.controls h3{font-size:14px;margin:0 0 5px}.controls>p{font-size:13px;color:var(--muted);line-height:1.45;margin:0 0 16px}.control{border:1px solid #365462;border-radius:13px;padding:13px;margin-bottom:12px;background:#0b222d}
+.control-head{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:750}.control-head output{font-size:12px;color:var(--aqua);font-weight:650}.control input{width:100%;accent-color:var(--aqua);margin:14px 0 4px;height:22px;touch-action:pan-y}.endpoints{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.btn{border:1px solid #426675;background:#173845;color:#ecf8f9;border-radius:11px;padding:12px 10px;font-weight:750;min-height:47px}.btn.primary{background:var(--aqua);color:#052b31;border:0}.btn:active{transform:scale(.98)}
+.result{padding:14px 16px;margin-top:14px;background:#0b222d;border-radius:12px;border:1px solid #335363}.result-label{font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}.bar{height:10px;background:#294753;border-radius:12px;overflow:hidden;margin:10px 0}.bar>div{width:0;height:100%;background:linear-gradient(90deg,#5cd9d0,#a4efad);transition:width .4s}.result strong{font-size:25px}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.info{padding:18px 20px}.info h3{margin:0 0 9px;font-size:16px}.info p{margin:0;color:#c5d7df;line-height:1.6;font-size:14px}.info p+p{margin-top:8px}.info b{color:#fff}.hint{color:var(--orange)!important}.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}.tab{border:1px solid #3e5b69;background:#0b222d;color:#d8e9ed;padding:9px 12px;border-radius:9px;font-size:12px;font-weight:700}.tab.active{background:#d0ecea;color:#11333c}.explain{min-height:94px}.foot{font-size:12px;color:#91aab5;margin:16px 3px 0;line-height:1.5}
+@media(max-width:800px){.grid,.bottom{grid-template-columns:1fr}.app{padding:13px 10px 30px}.top{padding:4px 3px 15px}.intro{margin:19px 3px 15px}.scene{padding:0}.card-head{padding:14px 14px 0}.legend{padding:0 12px 13px}.status{margin:0 12px 12px}.controls{padding:14px}.info{padding:16px}.badge{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main class="app">
+<header class="top"><div><div class="eyebrow">NO / ÅRSKURS 5 / DIGITALT LABORATORIUM</div><h1>Kroppsfabriken<span style="color:var(--aqua)">.</span></h1></div><div class="badge">LABB 01 · CELLANDNING</div></header>
+<section class="intro"><div><h2>Kan du få cellen att arbeta?</h2><p>En cell behöver bränsle och syre för sin syrekrävande cellandning. Undersök vad som händer när du ändrar tillförseln. Kan du få både lampan och muskeln att fungera?</p></div><span class="pill">UNDERSÖK → FÖRKLARA → TESTA IGEN</span></section>
+<section class="grid">
+<div class="card">
+<div class="card-head"><h3>ENERGIFABRIKEN</h3><span class="small" id="stateLabel">Väntar på tillförsel</span></div>
+<div class="scene">
+<svg viewBox="0 0 680 440" role="img" aria-label="En interaktiv modell där druvsocker och syre leds till en cell. Energi visas som en lampa och en arbetande muskel.">
+<defs><radialGradient id="glow"><stop stop-color="#fff8a6" stop-opacity=".7"/><stop offset="1" stop-color="#ffcf68" stop-opacity="0"/></radialGradient><clipPath id="cellClip"><ellipse cx="338" cy="235" rx="149" ry="124"/></clipPath></defs>
+<path class="tube" d="M60 130 H183 Q217 130 232 162"/><path class="tubeCore" d="M60 130 H183 Q217 130 232 162"/>
+<path class="tube" d="M60 315 H175 Q208 315 232 287"/><path class="tubeCore" d="M60 315 H175 Q208 315 232 287"/>
+<g><rect x="18" y="89" width="122" height="55" rx="13" fill="#244b5a" stroke="#65d9e1" stroke-width="2"/><text x="79" y="111" class="label" text-anchor="middle">SYRE</text><text x="79" y="127" class="subLabel" text-anchor="middle">O₂ · blå</text></g>
+<g><rect x="18" y="274" width="122" height="55" rx="13" fill="#58422d" stroke="#ffbb73" stroke-width="2"/><text x="79" y="296" class="label" text-anchor="middle">DRUVSOCKER</text><text x="79" y="313" class="subLabel" text-anchor="middle">glukos · orange</text></g>
+<ellipse class="cellShell" cx="338" cy="235" rx="149" ry="124"/><ellipse cx="338" cy="235" rx="134" ry="109" fill="none" stroke="#426b76" stroke-dasharray="4 10"/>
+<path class="mito" d="M275 204 C278 164 326 159 365 178 C409 197 408 263 365 286 C324 307 273 286 275 245 Z"/>
+<path class="innerMito" d="M300 198 Q326 223 345 198 T383 213 M295 238 Q323 214 343 242 T383 244 M301 270 Q324 246 347 269 T377 262"/>
+<text x="338" y="333" class="label" text-anchor="middle">CELL</text><text x="338" y="349" class="subLabel" text-anchor="middle">mitokondrie = energifabrik</text>
+<g id="flowDots" clip-path="url(#cellClip)"></g><g id="inletDots"></g>
+<path d="M488 224 H543" stroke="#65828d" stroke-width="5" stroke-dasharray="7 8"/><text x="516" y="204" class="subLabel" text-anchor="middle">ENERGI</text>
+<circle id="lightHalo" cx="597" cy="165" r="75" fill="url(#glow)"/><path id="lightBulb" d="M575 150 A23 23 0 1 1 618 165 Q608 179 606 192 H585 Q584 178 577 168 Z" stroke="#b4cdd0" stroke-width="3"/><path d="M585 198 H607 M587 205 H605" stroke="#d6e6e6" stroke-width="4" stroke-linecap="round"/><text x="597" y="231" class="label" text-anchor="middle">LAMPA</text><text x="597" y="248" class="subLabel" text-anchor="middle">symbol för energi</text>
+<g id="arm"><path d="M504 347 Q530 330 550 348 L583 367" stroke="#a5aeb0" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M584 366 L616 338" stroke="#a5aeb0" stroke-width="15" stroke-linecap="round" fill="none"/><path id="muscle" d="M523 343 Q543 316 561 347 Q545 364 523 343Z" fill="#ff7984" stroke="#ffb2b7" stroke-width="2"/></g>
+<text x="574" y="409" class="label" text-anchor="middle">MUSKEL</text><text x="574" y="425" class="subLabel" text-anchor="middle">använder energi</text>
+<g id="outDots"></g>
+<text x="337" y="39" class="label" text-anchor="middle">CELLANDNING</text><text x="337" y="58" class="subLabel" text-anchor="middle">syre + druvsocker → koldioxid + vatten + användbar energi</text>
+</svg>
+</div>
+<div class="legend"><span><i class="dot" style="background:#62d8e5"></i>Syre</span><span><i class="dot" style="background:#ffba6e"></i>Druvsocker</span><span><i class="dot" style="background:#b4a6ef"></i>Koldioxid</span><span><i class="dot" style="background:#9ce7ae"></i>Energi (symbol)</span></div>
+<div class="status" aria-live="polite"><strong id="statusTitle">Gör din hypotes</strong><span id="statusText">Vad tror du händer om cellen bara får syre men inget druvsocker? Prova med reglagen.</span></div>
+</div>
+<aside class="card controls">
+<h3>STYR EXPERIMENTET</h3><p>Ändra tillförseln till cellen. Starta simuleringen och se hur systemen reagerar.</p>
+<div class="control"><div class="control-head"><label for="oxygen">Syretillförsel · O₂</label><output id="oxygenVal">0 %</output></div><input id="oxygen" type="range" min="0" max="100" value="0" step="10"><div class="endpoints"><span>Inget syre</span><span>Full tillförsel</span></div></div>
+<div class="control"><div class="control-head"><label for="glucose">Druvsocker · glukos</label><output id="glucoseVal">0 %</output></div><input id="glucose" type="range" min="0" max="100" value="0" step="10"><div class="endpoints"><span>Inget bränsle</span><span>Full tillförsel</span></div></div>
+<div class="control"><div class="control-head"><label for="demand">Muskelns arbetsnivå</label><output id="demandVal">Vila</output></div><input id="demand" type="range" min="1" max="3" value="1" step="1"><div class="endpoints"><span>Vila</span><span>Hårt arbete</span></div></div>
+<div class="actions"><button class="btn primary" id="run" type="button">▶ Starta</button><button class="btn" id="reset" type="button">↺ Återställ</button></div>
+<div class="result"><div class="result-label">Modellens energitillgång</div><div class="bar"><div id="energyBar"></div></div><strong id="energyPct">0 %</strong><div class="small" id="energyDescription">Väntar på experiment</div></div>
+</aside>
+</section>
+<section class="bottom">
+<div class="card info"><h3>🔍 Vad visar modellen?</h3><div class="tabs"><button type="button" class="tab active" data-tab="simple">Förstå</button><button type="button" class="tab" data-tab="real">I verkligheten</button><button type="button" class="tab" data-tab="challenge">Utmaning</button></div><div class="explain" id="explain"><p><b>Syre + druvsocker</b> behövs för den syrekrävande cellandningen. Då frigörs energi som cellen kan använda. Lampan och muskeln visar två sätt att tänka på energianvändning.</p></div></div>
+<div class="card info"><h3>✦ Visste du att?</h3><p>Även när du sover använder dina celler energi. Hjärtat fortsätter slå, hjärnan arbetar och kroppen håller temperaturen.</p><p class="hint">Nästa laboratorium: Varifrån kommer syret och druvsockret – och hur når de cellerna?</p></div>
+</section>
+<p class="foot">Vetenskaplig förenkling: detta är en modell av syrekrävande cellandning, inte en exakt mätning. Celler använder också andra bränslen och vissa processer kan frigöra energi utan syre. Lampan produceras inte av cellen – den är en pedagogisk symbol.</p>
+</main>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const oxygen=$("oxygen"),glucose=$("glucose"),demand=$("demand");
+const run=$("run"),reset=$("reset");
+const state={playing:false,frame:0,last:0,raf:0};
+const svgNS="http://www.w3.org/2000/svg";
+const dots=[];
+function dot(parent,color,r){
+ const c=document.createElementNS(svgNS,"circle");c.setAttribute("r",r);c.setAttribute("fill",color);parent.appendChild(c);return c;
+}
+for(let i=0;i<12;i++){dots.push({o:dot($("inletDots"),"#62d8e5",5),g:dot($("inletDots"),"#ffba6e",5),e:dot($("flowDots"),"#a1e8ad",4),c:dot($("outDots"),"#b4a6ef",4),i});}
+function values(){return {o:+oxygen.value,g:+glucose.value,d:+demand.value};}
+function update(){
+ const {o,g,d}=values();
+ $("oxygenVal").textContent=o+" %";$("glucoseVal").textContent=g+" %";
+ $("demandVal").textContent=["","Vila","Rörelse","Hårt arbete"][d];
+ const energy=Math.min(o,g);
+ $("energyPct").textContent=state.playing?energy+" %":"0 %";
+ $("energyBar").style.width=(state.playing?energy:0)+"%";
+ $("lightBulb").style.fill=state.playing&&energy>0?"#ffe58b":"#576d70";
+ $("lightHalo").style.opacity=state.playing&&energy>0?".95":".08";
+ const moving=state.playing&&energy>=d*24;
+ $("arm").style.transform=moving?"rotate(-17deg)":"rotate(0deg)";
+ $("stateLabel").textContent=state.playing?"Simulering pågår":"Väntar på tillförsel";
+ if(!state.playing){$("statusTitle").textContent="Gör din hypotes";$("statusText").textContent="Ställ in syre och druvsocker. Vad tror du händer när du startar?";$("energyDescription").textContent="Väntar på experiment";return;}
+ if(o===0&&g===0){$("statusTitle").textContent="Ingen tillförsel";$("statusText").textContent="Cellen saknar både syre och druvsocker i modellen.";}
+ else if(o===0){$("statusTitle").textContent="Syre saknas";$("statusText").textContent="Druvsocker finns, men syrekrävande cellandning kan inte fortsätta utan syre.";}
+ else if(g===0){$("statusTitle").textContent="Bränsle saknas";$("statusText").textContent="Syre finns, men vår modell saknar druvsocker som bränsle.";}
+ else if(!moving){$("statusTitle").textContent="Cellen arbetar – men muskeln behöver mer";$("statusText").textContent="Energi frigörs, men i modellen räcker tillförseln inte för den valda arbetsnivån. Prova att öka den begränsande tillförseln.";}
+ else {$("statusTitle").textContent="Cellandningen fungerar!";$("statusText").textContent="Syre och druvsocker finns. Modellen visar energi som kan användas till muskelarbete. Koldioxid och vatten bildas också.";}
+ $("energyDescription").textContent=energy===0?"Ingen syrekrävande cellandning":energy<40?"Låg tillförsel":energy<80?"Måttlig tillförsel":"God tillförsel";
+}
+function animate(t){
+ if(!state.playing)return;
+ const {o,g}=values();const active=Math.min(o,g)>0;
+ for(const a of dots){
+  const p=((t*.00022)+(a.i/12))%1;
+  const po=((t*.00015)+(a.i/12))%1;
+  a.o.setAttribute("cx",60+po*170);a.o.setAttribute("cy",130+Math.sin(po*5+a.i)*6);
+  a.g.setAttribute("cx",60+po*170);a.g.setAttribute("cy",315+Math.sin(po*5+a.i)*6);
+  a.o.style.opacity=o>0&&a.i<Math.ceil(o/9)?".95":"0";
+  a.g.style.opacity=g>0&&a.i<Math.ceil(g/9)?".95":"0";
+  a.e.setAttribute("cx",338+Math.cos(p*Math.PI*2)*100);a.e.setAttribute("cy",235+Math.sin(p*Math.PI*2)*65);
+  a.e.style.opacity=active?".9":"0";
+  a.c.setAttribute("cx",480+p*65);a.c.setAttribute("cy",278+Math.sin(p*6+a.i)*12);
+  a.c.style.opacity=active?".65":"0";
+ }
+ state.raf=requestAnimationFrame(animate);
+}
+run.addEventListener("click",()=>{
+ state.playing=!state.playing;
+ run.textContent=state.playing?"Ⅱ Pausa":"▶ Starta";
+ if(state.playing)state.raf=requestAnimationFrame(animate);else {cancelAnimationFrame(state.raf);dots.forEach(a=>[a.o,a.g,a.e,a.c].forEach(c=>c.style.opacity="0"));}
+ update();
+});
+reset.addEventListener("click",()=>{
+ state.playing=false;cancelAnimationFrame(state.raf);
+ oxygen.value=0;glucose.value=0;demand.value=1;run.textContent="▶ Starta";
+ dots.forEach(a=>[a.o,a.g,a.e,a.c].forEach(c=>c.style.opacity="0"));
+ update();
+});
+[oxygen,glucose,demand].forEach(el=>el.addEventListener("input",update));
+const tabText={
+simple:"<p><b>Syre + druvsocker</b> behövs för den syrekrävande cellandningen. Då frigörs energi som cellen kan använda. Lampan och muskeln visar två sätt att tänka på energianvändning.</p>",
+real:"<p><b>Mitokondrier</b> finns i många av kroppens celler. Där sker viktiga delar av den syrekrävande cellandningen. Energi från druvsocker överförs bland annat till <b>ATP</b>, som cellen kan använda. <b>Koldioxid och vatten</b> bildas. Lampan är bara en symbol – ingen riktig elledning finns i kroppen.</p>",
+challenge:"<p><b>Testa tre saker:</b> 1) Bara syre. 2) Bara druvsocker. 3) Båda, men med högsta muskelarbete. <b>Vilken tillförsel begränsar modellen?</b> Förklara med orden syre, druvsocker och cellandning.</p>"
+};
+document.querySelectorAll("[data-tab]").forEach(btn=>btn.addEventListener("click",()=>{
+ document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===btn));
+ $("explain").innerHTML=tabText[btn.dataset.tab];
+}));
+update();
+})();
+</script>
+</body></html>
